@@ -27,7 +27,7 @@ public class AdministratorController {
     /** 管理者の Service */
     private final AdministratorService service;
     /** session スコープを保持するオブジェクト */
-    private HttpSession session;
+    private final HttpSession session;
 
     /**
      * コンストラクタ
@@ -117,7 +117,7 @@ public class AdministratorController {
         }
 
         this.session.setAttribute("administratorName", administrator.getName());
-        return "redirect:/employees/list";
+        return "redirect:/employees";
     }
 
     @PostMapping("/logout")

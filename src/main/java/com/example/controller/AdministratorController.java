@@ -4,6 +4,7 @@ import com.example.domain.Administrator;
 import com.example.form.AdministratorCreateForm;
 import com.example.form.AdministratorLoginForm;
 import com.example.service.AdministratorService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.Optional;
 
 /**
  * 管理者の Controller.
@@ -23,13 +26,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AdministratorController {
     /** 管理者の Service */
     private final AdministratorService service;
+    /** session スコープを保持するオブジェクト */
+    private HttpSession session;
 
     /**
      * コンストラクタ
      *
      * @param service AdministratorService
      */
-    public AdministratorController(AdministratorService service) {
+    public AdministratorController(
+            HttpSession session,
+            AdministratorService service
+    ) {
+        this.session = session;
         this.service = service;
     }
 
@@ -94,11 +103,28 @@ public class AdministratorController {
             return this.showLoginForm(form);
         }
 
-        if (!this.service.authenticate(form)) {
-            bindingResult.reject("login.error", "メールアドレスまたはパスワードが間違っています");
+        Optional<Administrator> optional = this.service.findByMailAddress(form.getMailAddress());
+
+        if (optional.isEmpty()) {
+            bindingResult.reject("login.error");
             return this.showLoginForm(form);
         }
 
+        Administrator administrator = optional.get();
+        if (!administrator.authenticate(form.getPassword())) {
+            bindingResult.reject("login.error");
+            return this.showLoginForm(form);
+        }
+
+        this.session.setAttribute("administratorName", administrator.getName());
         return "redirect:/employees/list";
+    }
+
+    @PostMapping("/logout")
+    public String logout() {
+        // removeAttribute() で削除するとセッションID自体は残る
+        // administratorName 以外の値は残るのでセッションハイジャックの危険性がある
+        this.session.invalidate();
+        return "redirect:/admin/login";
     }
 }

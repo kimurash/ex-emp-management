@@ -62,9 +62,12 @@
               <span th:text="${session.administratorName + 'さん'}"
                 >山田さん</span
               >こんにちは！ &nbsp;&nbsp;&nbsp;
-              <a href="../administrator/login.html" class="navbar-link"
-                >ログアウト</a
-              >
+
+              <form th:action="@{/admin/logout}" method="post" style="display: inline;">
+                <button type="submit" class="btn btn-link navbar-link">
+                  ログアウト
+                </button>
+              </form>
             </p>
           </div>
           <!-- /.navbar-collapse -->

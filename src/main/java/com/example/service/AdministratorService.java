@@ -27,6 +27,26 @@ public class AdministratorService {
     }
 
     /**
+     * メールアドレスで管理者を取得する
+     *
+     * @param mailAddress メールアドレス
+     * @return Optional<Administrator>
+     */
+    public Optional<Administrator> findByMailAddress(String mailAddress) {
+        return this.repository.findByMailAddress(mailAddress);
+    }
+
+    /**
+     * 管理者を作成する.
+     *
+     * @param administrator 作成する管理者
+     * @return 作成された管理者のID
+     */
+    public Integer create(Administrator administrator) {
+        return this.repository.save(administrator);
+    }
+
+    /**
      * ユーザーを管理者であるか認証する.
      *
      * @param form AdministratorLoginForm
@@ -40,15 +60,5 @@ public class AdministratorService {
 
         Administrator administrator = optional.get();
         return administrator.authenticate(form.getPassword());
-    }
-
-    /**
-     * 管理者を作成する.
-     *
-     * @param administrator 作成する管理者
-     * @return 作成された管理者のID
-     */
-    public Integer create(Administrator administrator) {
-        return this.repository.save(administrator);
     }
 }

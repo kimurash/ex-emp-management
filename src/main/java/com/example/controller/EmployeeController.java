@@ -2,12 +2,15 @@ package com.example.controller;
 
 import com.example.domain.Employee;
 import com.example.service.EmployeeService;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 従業員の Controller.
@@ -40,5 +43,16 @@ public class EmployeeController {
         model.addAttribute("employees", employees);
 
         return "employee/list";
+    }
+
+    @GetMapping("/detail")
+    public String detail(Integer id, Model model) {
+        Optional<Employee> optional = this.service.findById(id);
+        if (optional.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "従業員が見つかりません");
+        }
+        model.addAttribute("employee", optional.get());
+
+        return "employee/detail";
     }
 }

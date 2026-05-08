@@ -5,6 +5,7 @@ import com.example.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 従業員の Service.
@@ -21,6 +22,10 @@ public class EmployeeService {
      */
     public EmployeeService(EmployeeRepository repository) {
         this.repository = repository;
+    }
+
+    public Optional<Employee> findById(Integer id) {
+        return this.repository.findById(id);
     }
 
     /**

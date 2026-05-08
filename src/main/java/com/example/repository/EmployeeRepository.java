@@ -33,6 +33,12 @@ public class EmployeeRepository {
         this.template = template;
     }
 
+    /**
+     * ID で従業員を取得する.
+     *
+     * @param id 従業員ID
+     * @return 従業員
+     */
     public Optional<Employee> findById(Integer id) {
         String sql = """
                 select
@@ -69,7 +75,7 @@ public class EmployeeRepository {
     /**
      * 全ての従業員を取得する.
      *
-     * @return List<Employee>
+     * @return 従業員一覧
      */
     public List<Employee> findAll() {
         String sql = """

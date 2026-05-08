@@ -18,11 +18,16 @@ import org.hibernate.validator.constraints.Length;
 @Setter
 @ToString
 public class AdministratorCreateForm {
+    /** 名前 */
     @NotBlank(message = "名前を入力してください")
     private String name;
+
+    /** メールアドレス */
     @NotBlank(message = "メールアドレスを入力してください")
     @Email(message = "メールアドレスの形式が不正です")
     private String mailAddress;
+
+    /** パスワード */
     @NotBlank(message = "パスワードを入力してください")
     @Length(min = 6, message = "パスワードは6文字以上でご入力ださい")
     private String password;

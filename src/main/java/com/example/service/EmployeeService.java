@@ -9,6 +9,8 @@ import java.util.Optional;
 
 /**
  * 従業員の Service.
+ *
+ * @author shunsei
  */
 @Service
 public class EmployeeService {
@@ -31,7 +33,7 @@ public class EmployeeService {
     /**
      * 全ての従業員を取得する.
      *
-     * @return List<Employee>
+     * @return 従業員一覧
      */
     public List<Employee> findAll() {
         return this.repository.findAll();

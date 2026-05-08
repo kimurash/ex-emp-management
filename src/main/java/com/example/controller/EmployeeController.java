@@ -68,7 +68,7 @@ public class EmployeeController {
     }
 
     /**
-     * 従業員の扶養人数を更新する
+     * 従業員の扶養人数を更新する.
      *
      * @param form          扶養人数更新フォーム
      * @param bindingResult BindingResult

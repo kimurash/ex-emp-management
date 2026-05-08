@@ -30,7 +30,7 @@ public class AdministratorController {
     private final HttpSession session;
 
     /**
-     * コンストラクタ
+     * コンストラクタ.
      *
      * @param service AdministratorService
      */
@@ -116,6 +116,7 @@ public class AdministratorController {
             return this.showLoginForm(form);
         }
 
+        // ここで管理者の情報が必要なので Controller に認証のロジックを書いた
         this.session.setAttribute("administratorName", administrator.getName());
         return "redirect:/employees";
     }

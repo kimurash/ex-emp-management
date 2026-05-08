@@ -27,10 +27,10 @@ public class AdministratorService {
     }
 
     /**
-     * メールアドレスで管理者を取得する
+     * メールアドレスで管理者を取得する.
      *
      * @param mailAddress メールアドレス
-     * @return Optional<Administrator>
+     * @return 管理者情報
      */
     public Optional<Administrator> findByMailAddress(String mailAddress) {
         return this.repository.findByMailAddress(mailAddress);

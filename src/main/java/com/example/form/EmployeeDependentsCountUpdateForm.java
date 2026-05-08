@@ -18,8 +18,9 @@ public class EmployeeDependentsCountUpdateForm {
     /** 従業員ID */
     @NotNull()
     private Integer id;
+    
     /** 扶養人数 */
-    @NotNull(message = "不要人数を入力してください")
+    @NotNull(message = "扶養人数を入力してください")
     @Min(value = 0, message = "0以上の整数を入力してください")
     private Integer dependentsCount;
 }

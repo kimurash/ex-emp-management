@@ -39,7 +39,7 @@ public class AdministratorRepository {
      * メールアドレスで管理者を検索する.
      *
      * @param mailAddress メールアドレス
-     * @return Optional<Administrator>
+     * @return 従業員情報
      */
     public Optional<Administrator> findByMailAddress(String mailAddress) {
         String sql = """

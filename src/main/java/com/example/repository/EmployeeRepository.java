@@ -86,9 +86,32 @@ public class EmployeeRepository {
                     characteristics,
                     dependents_count
                 from
-                    employees;
+                    employees
+                order by
+                    name;
                 """;
 
         return this.template.query(sql, EMPLOYEE_ROW_MAPPER);
+    }
+
+    /**
+     * 従業員の扶養人数を更新する
+     *
+     * @param id              従業員ID
+     * @param dependentsCount 扶養人数
+     */
+    public void updateDependentsCount(Integer id, Integer dependentsCount) {
+        String sql = """
+                update
+                    employees
+                set
+                    dependents_count = :dependentsCount
+                where
+                    id = :id;
+                """;
+        SqlParameterSource param = new MapSqlParameterSource()
+                .addValue("id", id)
+                .addValue("dependentsCount", dependentsCount);
+        this.template.update(sql, param);
     }
 }

@@ -36,4 +36,14 @@ public class EmployeeService {
     public List<Employee> findAll() {
         return this.repository.findAll();
     }
+
+    /**
+     * 従業員の扶養人数を更新する
+     *
+     * @param id              従業員ID
+     * @param dependentsCount 扶養人数
+     */
+    public void updateDependentsCount(Integer id, Integer dependentsCount) {
+        this.repository.updateDependentsCount(id, dependentsCount);
+    }
 }

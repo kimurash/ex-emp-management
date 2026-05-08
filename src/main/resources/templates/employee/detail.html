@@ -75,7 +75,7 @@
     <!-- パンくずリスト -->
     <ol class="breadcrumb">
         <li>
-            <a href="list.html" th:href="@{/employee/showList}">従業員リスト</a>
+            <a href="list.html" th:href="@{/employees}">従業員リスト</a>
         </li>
         <li class="active">従業員詳細</li>
     </ol>
@@ -169,14 +169,14 @@
                                             style="color: red"
                                             for="dependentsCount"
                                     ></label>
-                                    <input type="hidden" name="id"/>
+                                    <input type="hidden" name="id" th:field="${employee.id}"/>
                                     <input
                                             type="text"
                                             name="dependentsCount"
                                             id="dependentsCount"
                                             class="form-control"
                                             value="3"
-                                            th:value="${employee.dependentsCount}"
+                                            th:field="${employee.dependentsCount}"
                                     />
                                 </td>
                             </tr>

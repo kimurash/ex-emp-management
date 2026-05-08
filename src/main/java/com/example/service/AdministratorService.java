@@ -1,8 +1,11 @@
 package com.example.service;
 
 import com.example.domain.Administrator;
+import com.example.form.AdministratorLoginForm;
 import com.example.repository.AdministratorRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 /**
  * 管理者の Service.
@@ -15,7 +18,7 @@ public class AdministratorService {
     private final AdministratorRepository repository;
 
     /**
-     * コンストラクタ
+     * コンストラクタ.
      *
      * @param repository AdministratorRepository
      */
@@ -23,6 +26,28 @@ public class AdministratorService {
         this.repository = repository;
     }
 
+    /**
+     * ユーザーを管理者であるか認証する.
+     *
+     * @param form AdministratorLoginForm
+     * @return 認証が成功したか
+     */
+    public boolean authenticate(AdministratorLoginForm form) {
+        Optional<Administrator> optional = this.repository.findByMailAddress(form.getMailAddress());
+        if (optional.isEmpty()) {
+            return false;
+        }
+
+        Administrator administrator = optional.get();
+        return administrator.authenticate(form.getPassword());
+    }
+
+    /**
+     * 管理者を作成する.
+     *
+     * @param administrator 作成する管理者
+     * @return 作成された管理者のID
+     */
     public Integer create(Administrator administrator) {
         return this.repository.save(administrator);
     }

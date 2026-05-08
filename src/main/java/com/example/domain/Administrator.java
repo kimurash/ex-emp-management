@@ -22,4 +22,14 @@ public class Administrator {
     private String mailAddress;
     /** パスワード */
     private String password;
+
+    /**
+     * パスワードが正しいか判定する.
+     *
+     * @param password 判定するパスワード
+     * @return パスワードが正しいか
+     */
+    public boolean authenticate(String password) {
+        return this.password.equals(password);
+    }
 }

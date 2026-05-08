@@ -2,11 +2,13 @@ package com.example.controller;
 
 import com.example.domain.Administrator;
 import com.example.form.AdministratorCreateForm;
+import com.example.form.AdministratorLoginForm;
 import com.example.service.AdministratorService;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,17 +34,7 @@ public class AdministratorController {
     }
 
     /**
-     * ログインフォームを表示する
-     *
-     * @return ログインフォームのパス
-     */
-    @GetMapping("/login")
-    public String showLoginForm() {
-        return "administrator/login";
-    }
-
-    /**
-     * 管理者登録フォームを表示する
+     * 管理者登録フォームを表示する.
      *
      * @param form 管理者登録フォームの入力値
      * @return 管理者登録フォームのパス
@@ -74,5 +66,39 @@ public class AdministratorController {
         this.service.create(administrator);
 
         return "redirect:/admin/login";
+    }
+
+    /**
+     * ログインフォームを表示する.
+     *
+     * @return ログインフォームのパス
+     */
+    @GetMapping("/login")
+    public String showLoginForm(AdministratorLoginForm form) {
+        return "administrator/login";
+    }
+
+    /**
+     * ユーザーを管理者であるか認証する.
+     *
+     * @param form          AdministratorLoginForm
+     * @param bindingResult バリデーション結果を保持したオブジェクト
+     * @return バリデーションエラー時と認証失敗はログインフォームを表示する。認証成功時は従業員一覧を表示する。
+     */
+    @PostMapping("/login")
+    public String login(
+            @Validated AdministratorLoginForm form,
+            BindingResult bindingResult
+    ) {
+        if (bindingResult.hasErrors()) {
+            return this.showLoginForm(form);
+        }
+
+        if (!this.service.authenticate(form)) {
+            bindingResult.reject("login.error", "メールアドレスまたはパスワードが間違っています");
+            return this.showLoginForm(form);
+        }
+
+        return "redirect:/employees/list";
     }
 }

@@ -11,6 +11,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -24,6 +25,9 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/employees")
 public class EmployeeController {
+    /** 1ページあたりの人数 */
+    private static final int PAGE_SIZE = 10;
+
     /** 従業員の Service */
     private final EmployeeService service;
 
@@ -39,12 +43,19 @@ public class EmployeeController {
     /**
      * 従業員の一覧画面を表示する.
      *
+     * @param page 何番目のページか
      * @return 従業員一覧画面のパス
      */
     @GetMapping("")
-    public String showList(Model model) {
-        List<Employee> employees = this.service.findAll();
+    public String showList(@RequestParam(defaultValue = "1") Integer page, Model model) {
+        List<Employee> employees = this.service.findByPage(page, PAGE_SIZE);
         model.addAttribute("employees", employees);
+
+        int totalCount = this.service.getTotalCount();
+        int totalPages = (int) Math.ceil(totalCount * 1.0 / PAGE_SIZE);
+        model.addAttribute("totalPages", totalPages);
+
+        model.addAttribute("currentPage", page);
 
         return "employee/list";
     }

@@ -29,6 +29,26 @@
     </tr>
     </tbody>
   </table>
+
+  <nav class="text-center">
+    <ul class="pagination">
+      <!-- 前のページ -->
+      <li th:class="${currentPage == 1} ? 'disabled'">
+        <a th:href="@{/employees(page=${currentPage - 1})}">&laquo;</a>
+      </li>
+
+      <!-- ページ番号 -->
+      <li th:each="i : ${#numbers.sequence(1, totalPages)}"
+          th:class="${i == currentPage} ? 'active'">
+        <a th:href="@{/employees(page=${i})}" th:text="${i}">1</a>
+      </li>
+
+      <!-- 次のページ -->
+      <li th:class="${currentPage == totalPages} ? 'disabled'">
+        <a th:href="@{/employees(page=${currentPage + 1})}">&raquo;</a>
+      </li>
+    </ul>
+  </nav>
 </main>
 </body>
 </html>
